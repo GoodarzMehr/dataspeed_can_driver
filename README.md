@@ -44,19 +44,74 @@ ROS API (stable)
 ### dbw_mkz_can
 
 #### Nodes
+* `can_node`
 * `vehicle/dbw_node`
 
-#### Topics
-* ``: .
-* ``: .
+#### Published Topics
+* `can_node/can_err [can_msgs/Frame]`: publishes error messages read from the vehicle [CAN bus](https://en.wikipedia.org/wiki/CAN_bus).
+* `can_node/can_rx [can_msgs/Frame]`: publishes CAN messages read from the vehicle [CAN bus](https://en.wikipedia.org/wiki/CAN_bus) (772 Hz).
+* `can_node/version [std_msgs/String]`: publishes the Dataspeed CAN USB Driver version.
+* `vehicle/can_tx [can_msgs/Frame]`: publishes commands intended for the vehicle [CAN bus](https://en.wikipedia.org/wiki/CAN_bus).
+* `vehicle/antilock_brakes_active [std_msgs/Bool]`: publishes whether the vehicle's anti-lock brake system (ABS) is active (50 Hz).
+* `vehicle/brake_feedback [automotive_platform_msgs/BrakeFeedback]`: publishes the current brake pedal position (50 Hz).
+* `vehicle/brake_info_report [dbw_mkz_msgs/BrakeInfoReport]`: publishes braking-related data including information on wheel torques, vehicle acceleration, brake pedal quality factor, hill start assist system, anti-lock braking system (ABS), stability control system, traction control system (TCS), and parking brake (50 Hz).
+* `vehicle/brake_report [dbw_mkz_msgs/BrakeReport]`: publishes braking data including information on brake pedal position, braking torque, braking deceleration, and braking status (50 Hz).
+* `vehicle/dbw_enable [std_msgs/Bool]`: publishes whether the Drive-by-Wire system has been enabled.
+* `vehicle/driver_assist_report [dbw_mkz_msgs/DriverAssistReport]`: publishes information pertaining to advanced driver assistant systems (ADAS), including whether any such systems ([forward collision warning (FCW)](https://www.kbb.com/car-advice/how-does-forward-collision-warning-work/), [automatic emergency braking (AEB)](https://www.jdpower.com/cars/shopping-guides/what-is-automatic-emergency-braking), and [adaptive cruise control (ACC)](https://en.wikipedia.org/wiki/Adaptive_cruise_control)) are enabled or active as well as vehicle deceleration.
+* `vehicle/fuel_level_report [dbw_mkz_msgs/FuelLevelReport]`: publishes fuel level and battery voltage information of the vehicle (10 Hz).
+* `vehicle/gear_report [dbw_mkz_msgs/GearReport]`: publishes gear data including gear status and current gear enumeration (20 Hz).
+* `vehicle/gps/fix [sensor_msgs/NavSatFix]`: publishes the Navigation Satellite fix for any [Global Navigation Satellite System (GNSS)](https://en.wikipedia.org/wiki/Satellite_navigation#Global_navigation_satellite_systems), specified using the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System#1984_version) reference ellipsoid (1 Hz).
+* `vehicle/gps/time [sensor_msgs/TimeReference]`: publishes time reported by the [Global Navigation Satellite System (GNSS)](https://en.wikipedia.org/wiki/Satellite_navigation#Global_navigation_satellite_systems) in use (1 Hz).
+* `vehicle/gps/vel [geometry_msgs/TwistStamped]`: publishes linear and angular velocity (twist) measured by the [Global Navigation Satellite System (GNSS)](https://en.wikipedia.org/wiki/Satellite_navigation#Global_navigation_satellite_systems) in use (1 Hz).
+* `vehicle/imu/data_raw [sensor_msgs/Imu]`: publishes data from the vehicle's IMU (100 Hz).
+* `vehicle/misc_1_report [dbw_mkz_msgs/Misc1Report]`: publishes miscellaneous data obtained from the [CAN bus](https://en.wikipedia.org/wiki/CAN_bus), including information on turn signals, high beam, windshield wipers, ambient light sensor, outside air temperature, steering wheel buttons, doors, passenger seat, and seat belt (20 Hz).
+* `vehicle/parking_brake [std_msgs/Bool]`: publishes whether the vehicle's parking brake is active (50 Hz).
+* `vehicle/sonar_cloud [sensor_msgs/PointCloud2]`: publishes a point cloud created from the vehicle's ultrasound sensors observation.
+* `vehicle/steering_feedback [automotive_platform_msgs/SteeringFeedback]`: publishes the current steering wheel angle (100 Hz).
+* `vehicle/steering_report [dbw_mkz_msgs/SteeringReport]`: publishes steering data including information on the steering wheel angle, steering torque, and vehicle speed (100 Hz).
+* `vehicle/stability_ctrl_active [std_msgs/Bool]`: publishes whether the vehicle's stability control system is active (50 Hz).
+* `vehicle/stability_ctrl_enabled [std_msgs/Bool]`: publishes whether the vehicle's stability control system is enabled (50 Hz).
+* `vehicle/surround_report [dbw_mkz_msgs/SurroundReport]`: publishes data obtained from the vehicle's ultrasound sensors as well as cross traffic alert (CTA) and blind spot information system (BLIS) information.
+* `vehicle/throttle_feedback [automotive_platform_msgs/ThrottleFeedback]`: publishes the current throttle pedal position (100 Hz).
+* `vehicle/throttle_info_report [dbw_mkz_msgs/ThrottleInfoReport]`: publishes throttle-related data including information on the throttle pedal position and rate of change, engine rpm, gear number, ignition status, and battery current (100 Hz).
+* `vehicle/throttle_report [dbw_mkz_msgs/ThrottleReport]`: publishes throttle pedal data (50 Hz).
+* `vehicle/tire_pressure_report [dbw_mkz_msgs/TirePressureReport]`: publishes tire pressure data (2 Hz).
+* `vehicle/traction_ctrl_active [std_msgs/Bool]`: publishes whether the vehicle's traction control system (TCS) is active (50 Hz).
+* `vehicle/traction_ctrl_enabled [std_msgs/Bool]`: publishes whether the vehicle's traction control system (TCS) is enabled (50 Hz).
+* `vehicle/transmission_state [j2735_msgs/TransmissionState]`: publishes the current state of the vehicle's transmission (20 Hz).
+* `vehicle/twist [geometry_msgs/TwistStamped]`: publishes the absolute value of the vehicle's current twist (velocity in free space broken down into its linear and angular parts) (100 Hz).
+* `vehicle/signed_twist [geometry_msgs/TwistStamped]`: publishes the vehicle's current twist (velocity in free space broken down into its linear and angular parts) with correct signs (i.e. negative linear velocity when driving in reverse) (100 Hz).
+* `vehicle/vin [std_msgs/String]`: publishes the [vehicle identification number (VIN)](https://en.wikipedia.org/wiki/Vehicle_identification_number).
+* `vehicle/wheel_position_report [dbw_mkz_msgs/WheelPositionReport]`: publishes individual wheel positions (50 Hz).
+* `vehicle/wheel_speed_report [dbw_mkz_msgs/WheelSpeedReport]`: publishes individual wheel speeds (100 Hz).
 * `vehicle/discovery`: publishes the CARMA [DriverStatus](https://github.com/usdot-fhwa-stol/carma-msgs/blob/develop/cav_msgs/msg/DriverStatus.msg) message.
 
+#### Subscribed Topics
+* `vehicle/can_tx [can_msgs/Frame]`: `can_node` subscribes to this topic to receive commands that should be published to the vehicle [CAN bus](https://en.wikipedia.org/wiki/CAN_bus).
+* `can_node/can_rx [can_msgs/Frame]`: `vehicle/dbw_node` subscribes to this topic.
+* `vehicle/enable`: `vehicle/dbw_node` subscribes to this topic to receive the command for enabling the Drive-by-Wire system.
+* `vehicle/disable`: `vehicle/dbw_node` subscribes to this topic to receive the command for disabling the Drive-by-Wire system.
+* `vehicle/brake_cmd [dbw_mkz_msgs/BrakeCmd]`: `vehicle/dbw_node` subscribes to this topic to receive the braking command intended for the Drive-by-Wire system.
+* `vehicle/gear_cmd [dbw_mkz_msgs/GearCmd]`: `vehicle/dbw_node` subscribes to this topic to receive the gear change command intended for the Drive-by-Wire system.
+* `vehicle/steering_cmd [dbw_mkz_msgs/SteeringCmd]`: `vehicle/dbw_node` subscribes to this topic to receive the steering command intended for the Drive-by-Wire system.
+* `vehicle/throttle_cmd [dbw_mkz_msgs/ThrottleCmd]`: `vehicle/dbw_node` subscribes to this topic to receive the throttle command intended for the Drive-by-Wire system.
+* `vehicle/turn_signal_cmd [dbw_mkz_msgs/TurnSignalCmd]`: `vehicle/dbw_node` subscribes to this topic to receive the turn signal command intended for the Drive-by-Wire system.
+
 #### Services
-* ``
+N/A
 
 #### Parameters
-* ``: .
-* `parameter`: .
+* `can_node/bitrate`: bit rate of the [CAN bus](https://en.wikipedia.org/wiki/CAN_bus).
+* `can_node/mask_0`: [CAN bus](https://en.wikipedia.org/wiki/CAN_bus) filter mask.
+* `can_node/match_0`: [CAN bus](https://en.wikipedia.org/wiki/CAN_bus) filter match.
+* `vehicle/dbw_node/ackermann_track`: distance between the left and right tires in [Ackermann steering geometry](https://en.wikipedia.org/wiki/Ackermann_steering_geometry).
+* `vehicle/dbw_node/ackermann_wheelbase`: distance between the front and rear tires in [Ackermann steering geometry](https://en.wikipedia.org/wiki/Ackermann_steering_geometry).
+* `vehicle/dbw_node/buttons`
+* `vehicle/dbw_node/frame_id`: the [TF2](http://www.ros.org/wiki/tf2) frame ID.
+* `vehicle/dbw_node/joint_states`
+* `vehicle/dbw_node/pedal_luts`
+* `vehicle/dbw_node/steering_ratio`: steering ratio in [Ackermann steering geometry](https://en.wikipedia.org/wiki/Ackermann_steering_geometry).
+* `vehicle/dbw_node/warn_cmds`
 
 Examples
 --------
