@@ -48,7 +48,7 @@
 #include <dbw_mkz_msgs/SteeringReport.h>
 #include <dbw_mkz_msgs/GearCmd.h>
 #include <dbw_mkz_msgs/GearReport.h>
-#include <dbw_mkz_msgs/TurnSignalCmd.h>
+#include <dbw_mkz_msgs/MiscCmd.h>
 #include <dbw_mkz_msgs/Misc1Report.h>
 #include <dbw_mkz_msgs/WheelPositionReport.h>
 #include <dbw_mkz_msgs/WheelSpeedReport.h>
@@ -99,7 +99,7 @@ private:
   void recvThrottleCmd(const dbw_mkz_msgs::ThrottleCmd::ConstPtr& msg);
   void recvSteeringCmd(const dbw_mkz_msgs::SteeringCmd::ConstPtr& msg);
   void recvGearCmd(const dbw_mkz_msgs::GearCmd::ConstPtr& msg);
-  void recvTurnSignalCmd(const dbw_mkz_msgs::TurnSignalCmd::ConstPtr& msg);
+  void recvMiscCmd(const dbw_mkz_msgs::MiscCmd::ConstPtr& msg);
 
   ros::Timer timer_;
   bool prev_enable_;
@@ -126,7 +126,7 @@ private:
   inline bool override() { return override_brake_ || override_throttle_ || override_steering_ || override_gear_; }
   inline bool clear() { return enable_ && override(); }
   inline bool enabled() { return enable_ && !fault() && !override(); }
-  bool publishDbwEnabled();
+  bool publishDbwEnabled(bool force = false);
   void enableSystem();
   void disableSystem();
   void buttonCancel();
@@ -204,6 +204,7 @@ private:
   ros::Subscriber sub_steering_;
   ros::Subscriber sub_gear_;
   ros::Subscriber sub_turn_signal_;
+  ros::Subscriber sub_misc_;
 
   // Published topics
   ros::Publisher pub_can_;
